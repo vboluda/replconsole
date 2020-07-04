@@ -1,8 +1,8 @@
-var BConnection=require("./connection");
+"use strict";
 
 class bAdmin{
-    constructor(url){
-        this.connection=new BConnection(url);
+    constructor(conn){
+        this.connection=conn;
     }
 
     peers(){

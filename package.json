@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "sync-request": "^6.1.0"
+    "eth-hd-wallet": "^0.5.1",
+    "sync-request": "^6.1.0",
+    "web3": "^1.2.9"
   }
 }

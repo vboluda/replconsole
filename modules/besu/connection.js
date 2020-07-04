@@ -1,3 +1,5 @@
+"use strict";
+
 var request = require('sync-request');
 
 class besu_connection{
