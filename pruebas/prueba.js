@@ -7,7 +7,8 @@ var handler = {
         if(typeof property === 'function'){
             return function(){
                 console.log("CALL "+name);
-                return property(arguments);
+                var result= property(...arguments);
+                return result;
             }
         }
         if(typeof property === 'object'){
@@ -36,4 +37,4 @@ console.log(p.a, p.b); // 1, undefined
 console.log('c' in p, p.c); // false, 37
 p.f(1)
 console.log("OTRO "+p.otro.aa);
-console.log("SUMA "+p.otro.suma(1,2,3));
+console.log("SUMA: "+p.otro.suma(1,2,3));

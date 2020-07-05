@@ -7,8 +7,10 @@ const besu_admin=require("./besu/admin");
 const besu_eth=require("./besu/eth");
 const besu_txpool=require("./besu/txpool");
 
-var besu_connection0=new BConnection("http://192.168.1.3:5678");
-var besu_connectionWS0="ws://192.168.1.3:5679";
+//var besu_connection0=new BConnection("http://192.168.1.3:5678");
+var besu_connection0=new BConnection("http://127.0.0.1:5678");
+//var besu_connectionWS0="ws://192.168.1.3:5679";
+var besu_connectionWS0="ws://127.0.0.1:5679";
 
 const state={
     wallet:Wallet,
