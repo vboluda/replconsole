@@ -16,7 +16,11 @@ class newPromise{
 
     store=function(x){
         this.promise.then((v)=>{
-            Object.assign(x, v);
+            console.log("Valor: "+(typeof v));
+            switch(typeof v){
+                case "object": Object.assign(x, v); break;
+                default: Object.assign(x,{"result":v});break;
+            } 
         },
         (e)=>{
             console.error(e);
