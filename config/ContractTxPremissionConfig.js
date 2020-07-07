@@ -1,6 +1,6 @@
 module.exports={
-    "address":"0xa7D6CFe54c45F333fA843a6CeEAE55104FF12bf6",
-    "opts":{},
+    "address":"0xBA3702D16CaC53C114D3b22cB5C3aA2C395315d8",
+    "opts":{from:"0x6561274d8CcAE46C30f937c9B3Def49DA5Ef65B9"},
     "abi":[
         {
           "anonymous": false,
