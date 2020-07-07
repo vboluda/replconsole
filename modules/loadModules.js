@@ -29,7 +29,7 @@ const state={
             txpool:new besu_txpool(besu_connection0),
             web3:new Proxy(besu_web3_0,Handler),
             contracts:{
-                txpermission:new ContractAdaptor(besu_web3_0,txpermission_config.abi,txpermission_config.address,txpermission_config.opts)
+                txpermission:new ContractAdaptor(Wallet,besu_web3_0,txpermission_config.abi,txpermission_config.address,txpermission_config.opts)
             }
 
          }
