@@ -11,4 +11,8 @@ console.info("");
 
 const myRepl = repl.start("Console $ ");
 
+state.exit=function(){
+    process.exit();
+}
+
 Object.assign(myRepl.context, state);

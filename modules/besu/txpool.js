@@ -7,12 +7,12 @@ class btxpool{
 
     besuStatistics(){
         let res = this.connection.request("txpool_besuStatistics",[]);
-        return res;
+        return res.result;
     }
 
     besuTransactions(){
         let res = this.connection.request("txpool_besuTransactions",[]);
-        return res;
+        return res.result;
     }
 }
 
