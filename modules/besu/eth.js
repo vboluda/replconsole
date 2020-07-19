@@ -3,7 +3,15 @@
 class beth{
     constructor(_connection,_wallet){
         this.connection=_connection;
-        this.wallet=_wallet
+        this.wallet=_wallet;
+        this.nounces={};
+        console.info("Retrieve account info from node server");
+        for(let i=0,sz=this.wallet.address.length;i<sz;i++){
+            let res = this.connection.request("eth_getTransactionCount",[this.wallet.address[i],'latest']);
+            //console.log(`[${i}]: ${this.wallet.address[i]} - ${res.result}`);
+            this.nounces[this.wallet.address[i]]=res.result;
+        }
+        console.info("Retrieve account info from node server: DONE");
     }
 
     blockNumber(){
@@ -33,17 +41,12 @@ class beth{
         return this.connection.request("eth_getTransactionByHash",tx).result;
     }
 
-    getTransactionCount(tx){
-        if(!Array.isArray(tx)){
-            tx=[tx,"latest"];
-        }
-        return this.connection.request("eth_getTransactionCount",tx).result;
+    getTransactionCount(from){
+        return this.nounces[from]++;
     }
 
     sendTransaction(tx){
-        if(!tx.nonce){
-            tx.nonce=this.getTransactionCount(tx.from);
-        }
+        tx.nonce=this.getTransactionCount(tx.from);
         let signedTx=this.wallet.signTransaction(tx);
         //console.log(JSON.stringify(tx));
         return this.sendRawTransaction(signedTx);

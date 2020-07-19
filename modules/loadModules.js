@@ -4,6 +4,7 @@ const Web3 = require('web3')
 
 const Handler=require("./lib/PromiseHandler");
 const ContractAdaptor=require("./lib/ContractAdaptor");
+const Misc=require("./utils/misc");
 
 const Wallet=require("./wallet/hdWallet");
 const BConnection=require("./besu/connection");
@@ -14,14 +15,15 @@ const besu_test=require("./besu/test");
 
 const txpermission_config=require("../config/ContractTxPremissionConfig");
 
-var besu_connection0=new BConnection("http://192.168.1.3:5678");
+var besu_connection0=new BConnection("http://192.168.1.3:8545");
 //var besu_connection0=new BConnection("http://127.0.0.1:5678");
-var besu_connectionWS0="ws://192.168.1.3:5679";
+var besu_connectionWS0="ws://192.168.1.3:8546";
 //var besu_connectionWS0="ws://127.0.0.1:5679";
 var besu_web3_0=new Web3(besu_connectionWS0);
 
 
 const state={
+    misc: new Misc(),
     wallet:Wallet,
     besu0:{
             connection: besu_connection0,
