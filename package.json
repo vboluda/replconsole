@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "eth-hd-wallet": "^0.5.1",
+    "minimist": "^1.2.5",
+    "promptly": "^3.0.3",
     "sync-request": "^6.1.0",
     "web3": "^1.2.9"
   }
