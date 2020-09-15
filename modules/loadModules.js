@@ -21,23 +21,24 @@ var besu_connectionWS0="ws://192.168.1.3:8546";
 //var besu_connectionWS0="ws://127.0.0.1:5679";
 var besu_web3_0=new Web3(besu_connectionWS0);
 
-
-const state={
-    misc: new Misc(),
-    wallet:Wallet,
-    besu0:{
-            connection: besu_connection0,
-            admin:new besu_admin(besu_connection0),
-            eth:new besu_eth(besu_connection0,Wallet),
-            txpool:new besu_txpool(besu_connection0),
-            web3:new Proxy(besu_web3_0,Handler),
-            contracts:{
-                txpermission:new ContractAdaptor(Wallet,besu_web3_0,txpermission_config.abi,txpermission_config.address,txpermission_config.opts)
+function loadModules(wallet){
+    const state={
+        misc: new Misc(),
+        wallet:wallet,
+        besu0:{
+                connection: besu_connection0,
+                admin:new besu_admin(besu_connection0),
+                eth:new besu_eth(besu_connection0,Wallet),
+                txpool:new besu_txpool(besu_connection0),
+                web3:new Proxy(besu_web3_0,Handler),
+                contracts:{
+                    txpermission:new ContractAdaptor(Wallet,besu_web3_0,txpermission_config.abi,txpermission_config.address,txpermission_config.opts)
+                }
             }
-         }
-    
+        
+    }
+
+    state.besu0.test=new besu_test(state.besu0.eth,state.besu0.txpool);
+    return state;
 }
-
-state.besu0.test=new besu_test(state.besu0.eth,state.besu0.txpool);
-
-module.exports=state;
+module.exports=loadModules;

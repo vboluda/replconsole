@@ -12,36 +12,52 @@
     console.info("");
 
 
-    var argv = require('minimist')(process.argv.slice(2));
-    console.log(argv);
+    var args = require('minimist')(process.argv.slice(2));
+    //console.log(args);
 
-    if(process.argv[2]==="generateWallet"){
-        (async ()=>{
-            console.info("YOU ARE GOING TO DELETE CURRENT WALLET (IF EXISTS) AND REGENERATE NEW ONE");
-            console.info("DO NOT DO IT UNLESS YOU ARE AWARE OF ITS IMPLICATIONS!!!!!!!!!!!!!!!!!!!!");
-            console.info("(TO KEEP SAFE, PRESS ^C )")
-            var wallet=require("./modules/wallet/hdWallet");
-            await wallet.generateWallet();
-            process.exit();
-        })();
+    // if(args[2]==="generateWallet"){
+    //     (async ()=>{
+    //         console.info("YOU ARE GOING TO DELETE CURRENT WALLET (IF EXISTS) AND REGENERATE NEW ONE");
+    //         console.info("DO NOT DO IT UNLESS YOU ARE AWARE OF ITS IMPLICATIONS!!!!!!!!!!!!!!!!!!!!");
+    //         console.info("(TO KEEP SAFE, PRESS ^C )")
+    //         var wallet=require("./modules/wallet/hdWallet");
+    //         await wallet.generateWallet();
+    //         process.exit();
+    //     })();
+    // }
+    const promptly=require("promptly");
+    var wallet=require("./modules/wallet/hdWallet");
+    if(!wallet.existsWallet()){
+        console.info("NO WALLET PRESENT. GENERATE NEW ONE");
+        var mnemonic= await promptly.prompt('Provide menmonic to import or live blank to generate: ');
+        if(mnemonic===""){
+            mnemonic=wallet.generateMnemonic();
+        }
+        console.info("Store mnemonic safe!!!!!!!");
+        console.info(mnemonic);
+        var password="";
+        var password2="#";
+        while(true){
+            password = await promptly.password('Type password to lock Wallet: ', { replace: '*' });
+            password2 = await promptly.password('Retype password to lock Wallet: ', { replace: '*' });
+            if(password!=password2){
+                console.info("Passwords do not match. Please try again.");
+            }else{
+                break;
+            }
+        }
+        wallet.encryptMnemonic(mnemonic,password);
+        wallet.unlockWallet(password);
+    }else{
+        console.info("Wallet found");
+        const password = await promptly.password('Provide password to unlock Wallet: ', { replace: '*' });
+    
+        wallet.unlockWallet(password);
     }
 
-
-    // var configFile="../config.json";
-    // if(process.argv==3){
-    //     configFile=process.argv[2];
-    // }
-
-    // const fs = require('fs');
-    // let rawdata = fs.readFileSync(configFile);
-    // let config = JSON.parse(rawdata);
-    const promptly=require("promptly");
-    const password = await promptly.password('Provide password to unlock Wallet: ', { replace: '*' });
-    global._password_=password;
-
     const repl = require('repl');
-    const state=require("./modules/loadModules");
-
+    const state=require("./modules/loadModules")(wallet);
+    
 
     const myRepl = repl.start("ETH $ ");
 
