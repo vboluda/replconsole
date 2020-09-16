@@ -5,7 +5,7 @@ class beth{
         this.connection=_connection;
         this.wallet=_wallet;
         this.nounces={};
-        console.info("Retrieve account info from node server");
+        process.stdout.write("Retrieve account info from node server\r");
         for(let i=0,sz=this.wallet.address.length;i<sz;i++){
             let res = this.connection.request("eth_getTransactionCount",[this.wallet.address[i],'latest']);
             //console.log(`[${i}]: ${this.wallet.address[i]} - ${res.result}`);

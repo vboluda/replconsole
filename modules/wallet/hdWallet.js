@@ -1,5 +1,6 @@
 "use strict";
 
+const promptly=require("promptly");
 const { generateMnemonic,EthHdWallet } = require('eth-hd-wallet')
 const fs = require('fs');
 var encriptor=require("../../encryptor/encryptor");
@@ -52,6 +53,11 @@ class bHDWallet{
             process.exit();
         }
         fs.writeFileSync(this.walletFile, enc); 
+    }
+
+    decryptMnemonic(password){
+        let encMnemonic=""+fs.readFileSync(this.walletFile);
+        return encriptor.decrypt(encMnemonic,password);
     }
 }
 

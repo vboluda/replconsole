@@ -19,14 +19,7 @@ var encriptor=require("./encryptor/encryptor");
     
     //var prompt=new Prompt(true);
     console.info("Provide encryption password: ")
-    var password="12345";//await prompt.prompt();
-    //console.info("\nRETYPE encryption password: ")
-    //var password2=await prompt.prompt();
-    //prompt.close();
-    // if(password!=password2){
-    //     console.info("Passwords mismatch!!!!!!");
-    //     process.exit();
-    // }
+    var password="12345";
 
     var enc=encriptor.encrypt(mnemonic,password);
     var dec=encriptor.decrypt(enc,password);

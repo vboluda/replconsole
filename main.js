@@ -12,7 +12,7 @@
     console.info("");
 
 
-    var args = require('minimist')(process.argv.slice(2));
+    //var args = require('minimist')(process.argv.slice(2));
     //console.log(args);
 
     // if(args[2]==="generateWallet"){
@@ -25,6 +25,12 @@
     //         process.exit();
     //     })();
     // }
+
+    var Config=require("./modules/config/Config");
+    console.info("Retrieve config information");
+    var config=new Config();
+    config.retrieve();
+
     const promptly=require("promptly");
     var wallet=require("./modules/wallet/hdWallet");
     if(!wallet.existsWallet()){
@@ -56,13 +62,19 @@
     }
 
     const repl = require('repl');
-    const state=require("./modules/loadModules")(wallet);
+    const State=require("./modules/loadModules")
+    var state=State(wallet,config);
     
-
-    const myRepl = repl.start("ETH $ ");
+    var prompt=config.config.prompt;
+    if(!prompt) prompt="CONSOLE $ ";
+    const myRepl = repl.start(prompt);
 
     state.exit=function(){
         process.exit();
+    }
+
+    state.reloadConfig=function(){
+        state=State(wallet,config);
     }
 
     Object.assign(myRepl.context, state);
