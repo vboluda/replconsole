@@ -35,12 +35,14 @@
     var wallet=require("./modules/wallet/hdWallet");
     if(!wallet.existsWallet()){
         console.info("NO WALLET PRESENT. GENERATE NEW ONE");
-        var mnemonic= await promptly.prompt('Provide menmonic to import or live blank to generate: ');
-        if(mnemonic===""){
+        var mnemonic= await promptly.prompt('Provide menmonic to import or live blank to generate: ',{retry:false,default:'#'});
+        if(mnemonic==="#"){
             mnemonic=wallet.generateMnemonic();
         }
         console.info("Store mnemonic safe!!!!!!!");
+        console.info("########################################################################");
         console.info(mnemonic);
+        console.info("########################################################################");
         var password="";
         var password2="#";
         while(true){
