@@ -56,6 +56,11 @@
         }
         wallet.encryptMnemonic(mnemonic,password);
         wallet.unlockWallet(password);
+        console.info("Adresses: ");
+        wallet.address.forEach((e,i,o) => {
+            console.info(`[${i}]: "${e}"`);
+        });
+        console.info("");
     }else{
         console.info("Wallet found");
         const password = await promptly.password('Provide password to unlock Wallet: ', { replace: '*' });
