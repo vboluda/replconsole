@@ -3,8 +3,9 @@
 const fs=require('fs');
 const promptly=require("promptly");
 const { generateMnemonic, EthHdWallet } = require('eth-hd-wallet')
-var encriptor=require("./encryptor/encryptor");
-var wallet=require("./modules/wallet/hdWallet");
+var encriptor=require("../encryptor/encryptor");
+var wallet=require("../modules/wallet/hdWallet");
+var genesisGenerator=require("./genesysTemplate");
 
 
 (async ()=>{
@@ -16,6 +17,13 @@ var wallet=require("./modules/wallet/hdWallet");
     var arg_genwallet=args.genwallet || false;
     var arg_walletfile=args.walletfile || 'WALLET.dat';
     var arg_mnemonic=args.import || "#";
+    var arg_gengenesis=args.generategenesis || false;
+    var arg_genesisfile=args.genesisfile || "genesis.json";
+    var arg_chainid=args.chainid || "#";
+    var arg_period=args.period || 15;
+    var arg_gaslimit=args.gaslimit || "0xE4E1C0";
+
+    
 
     console.info("*****************************************");
     console.info(" GEN WALLET")
@@ -25,10 +33,21 @@ var wallet=require("./modules/wallet/hdWallet");
         console.log("--genwallet \t\t To generate new wallet from scratch");
         console.log("--walletfile [file] \t Output  wallet file");
         console.log("--import [mnemonic] \t Mnemonic words to recover wallet");
+        
         console.log("--help \t\t\t Shows this text");
         process.exit(0);
     }
 
+    if(arg_gengenesis){
+        if(fs.existsSync(arg_genesisfile)){
+            console.info("ERROR: File exists. Please provide new file name");
+            process.exit(1);
+        }
+        if(arg_chainid=="#"){
+            console.info("ERROR: Please provide a Chain Identifier");
+            process.exit(1);
+        }
+    }
 
     if(fs.existsSync(arg_walletfile)){
         console.info("ERROR: File exists. Please provide new file name");
@@ -90,4 +109,7 @@ var wallet=require("./modules/wallet/hdWallet");
     wallet.address.forEach((e,i,o) => {
         console.info(`[${i}]: "${e}"`);
     });
+    var genesis=genesisGenerator(wallet.address[0].substring(2),arg_chainid,arg_period,arg_gaslimit,wallet.address[1].substring(2));
+    console.info(`Generated genesis in file: ${arg_genesisfile}`);
+    fs.writeFileSync(arg_genesisfile,JSON.stringify(genesis));
 })();
