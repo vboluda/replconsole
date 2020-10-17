@@ -51,12 +51,10 @@ function loadModules(wallet,config){
                 state[key]=value;
             }catch(error){
                 console.error(error);
-                //console.log("ERRUIR");
             }
         });
     };
 
-    //state.besu0.test=new besu_test(state.besu0.eth,state.besu0.txpool);
     return state;
 }
 module.exports=loadModules;
